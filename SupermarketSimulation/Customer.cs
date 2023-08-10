@@ -44,7 +44,7 @@ namespace SupermarketSimulation
         /// </summary>
         public Customer()
         {
-            RandNum = new Random();
+            //RandNum = new Random();
 
             //creates random checkout time of at least two minutes
             TimeOfService = new TimeSpan(0, 2, (int)(NegativeExponential(225)));
@@ -55,12 +55,12 @@ namespace SupermarketSimulation
         /// </summary>
         /// <param name="averageTime">average checkout time for the customers</param>
         /// <param name="customerNumber">id for the customer</param>
-        public Customer(double averageTime, int customerNumber)
+        public Customer(double averageTime, int customerNumber, Random randomNumber)
         {
-            RandNum = new Random();
+            RandNum = randomNumber;
 
             //creates a checkout time of at least two minutes 
-            TimeOfService = new TimeSpan(0, 2, (int)(NegativeExponential(averageTime - 120)));
+            TimeOfService = new TimeSpan(0, 2, (int)NegativeExponential(averageTime));
 
             CustomerNumber = customerNumber; //sets customer ID
         }

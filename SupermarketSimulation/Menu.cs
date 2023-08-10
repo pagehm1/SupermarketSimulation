@@ -128,6 +128,21 @@ namespace SupermarketSimulation
                 }
             }
         }
+
+        /// <summary>
+        /// Inserts a new choice at the specified index
+        /// </summary>
+        /// <param name="choice">string name of option</param>
+        /// <param name="index">where to place it</param>
+        public void InsertChoice(string choice, int index)
+        {
+            Options.Insert(index, choice);
+        }
+
+        public int GetChoiceLength()
+        {
+            return Options.Count;
+        }
         #endregion
     }
 }

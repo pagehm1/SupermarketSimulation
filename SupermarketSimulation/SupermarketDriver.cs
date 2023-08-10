@@ -27,13 +27,10 @@ namespace SupermarketSimulation
         {
             //Choices within the menu are created
             Menu menu = new Menu("Supermarket Simulator");
-            menu = menu + "Edit the Number of Customers" + "Edit the Hours of Operation" + "Edit the Number of Registers" + "Edit the Average Amount of Time" 
-                        + "Run the simulation" + "Re-Display the statistics (after simulation has ran)" + "Quit"; //NOTE: remove the display stats and place it after the simulation has run
+            menu = menu + "Edit the Number of Customers" + "Edit the Hours of Operation" + "Edit the Number of Registers" + "Edit the Average Amount of Time" +
+                       "Edit Execution Speed" + "Run the simulation" + "Quit";
 
             Choices choice = (Choices)menu.GetChoice();
-
-            //initializes Supermarket instance to record user data
-            Supermarket supermarketInstance = new Supermarket();
 
             //Calls new supermarket so that user input can be used for the simulation
             Supermarket supermarketSimulation = new Supermarket();
@@ -45,87 +42,150 @@ namespace SupermarketSimulation
                 {
                     case Choices.CUSTOMERS:
                         Console.Title = "Number of Customers";
-                        Console.WriteLine("You selected to change the number of Customers. Current: " + supermarketInstance.NumberOfCustomers.ToString());
-                        Console.WriteLine("\n\nHow many customers would you like?");
-                        string numOfCustomers = Console.ReadLine();  //allows user to edit the expected customer count
-
-                        try
+                        Console.WriteLine("You selected to change the number of Customers. Current: " + supermarketSimulation.NumberOfCustomers.ToString());
+                        Console.WriteLine("\n\nHow many customers would you like? Or press 'b' and 'enter' to return:");
+                        
+                        while(true)
                         {
-                            //stores new count in the supermarket instance
-                            supermarketInstance.NumberOfCustomers = int.Parse(numOfCustomers);
+                            string numOfCustomers = Console.ReadLine();  //allows user to edit the expected customer count
+                            if(numOfCustomers == "b")
+                            {
+                                break;
+                            }
+                            try
+                            {
+                                //stores new count in the supermarket instance
+                                supermarketSimulation.NumberOfCustomers = int.Parse(numOfCustomers);
+                                break;
+                            }
+                            catch (Exception) //catches input that is not a number
+                            {
+                                Console.WriteLine("The input is not a number. Try again.");
+                            }
                         }
-                        catch(Exception) //catches input that is not a number
-                        {
-                            Console.WriteLine("The input is not a number. Try again.");
-                            Console.ReadKey();
-                        }                        
+                           
                         break;
 
                     case Choices.HOURS:
                         Console.Title = "Hours of Operation";
-                        Console.WriteLine("You selected to change the starting hour of operation. Current: " + supermarketInstance.TimeStoreOpens.ToString());
-                        Console.WriteLine("\n\nWhat hours would you like?: ");
-                        string newHour = Console.ReadLine();  //allows the user to edit the hour the store opens
+                        Console.WriteLine("You selected to change the starting hour of operation. Current: " + supermarketSimulation.TimeStoreOpens.ToString());
+                        Console.WriteLine("\n\nWhat hours would you like to start? (Closing time is 12:00 AM). Or press 'b' and 'enter' to return: ");
 
-                        try
+                        while(true)
                         {
-                            //stores new opening time in the supermarket instance
-                            supermarketInstance.TimeStoreOpens = DateTime.Parse(newHour);
-                        }
-                        catch(Exception)  //catches if the date is not in the correct format
-                        {
-                            Console.WriteLine("The value entered is not in the correct format. Please try again.");
-                            Console.ReadKey();
+                            string newHour = Console.ReadLine();  //allows the user to edit the hour the store opens
+                            if (newHour == "b")
+                            {
+                                break;
+                            }
+                            try
+                            {
+                                //stores new opening time in the supermarket instance
+                                supermarketSimulation.TimeStoreOpens = DateTime.Parse(newHour);
+                                break;
+                            }
+                            catch (Exception)  //catches if the date is not in the correct format
+                            {
+                                while (true)
+                                {
+                                    Console.WriteLine("The value entered is not in the correct format. Please try again.");
+                                }
 
+                            }
                         }
+                        
                         break;
 
                     case Choices.REGISTERS:
                         Console.Title = "Number of Registers";
-                        Console.WriteLine("You selected to change the number of registers. Current: " + supermarketInstance.NumberOfRegisters.ToString());
-                        Console.WriteLine("\n\nHow many registers would you like?: ");
-                        string newRegister = Console.ReadLine(); //allows user to edit the number of registers
+                        Console.WriteLine("You selected to change the number of registers. Current: " + supermarketSimulation.NumberOfRegisters.ToString());
+                        Console.WriteLine("\n\nHow many registers would you like? Or press 'b' and 'enter' to return: ");
 
-                        try
+                        while(true)
                         {
-                            //stores new register count in the supermarket instance
-                            supermarketInstance.NumberOfRegisters = int.Parse(newRegister);
-                        }
-                        catch(Exception) //catches if the input is not a number
-                        {
-                            Console.WriteLine("The value entered is not in the correct format. Please try again.");
-                            Console.ReadKey();
+                            string newRegister = Console.ReadLine(); //allows user to edit the number of registers
+                            if (newRegister == "b")
+                            {
+                                break;
+                            }
 
+                            try
+                            {
+                                //stores new register count in the supermarket instance
+                                supermarketSimulation.NumberOfRegisters = int.Parse(newRegister);
+                            }
+                            catch (Exception) //catches if the input is not a number
+                            {
+                                Console.WriteLine("The value entered is not in the correct format. Please try again.");
+                                Console.ReadKey();
+                            }
+
+                            break;
                         }
+
                         break;
+
                     case Choices.AVERAGE:
                         Console.Title = "Average Time in Line";
-                        Console.WriteLine("You selected to change the Average time Customers will be in line (in seconds). Current: " + supermarketInstance.AverageTime.ToString());
-                        Console.WriteLine("\n\nWhat time would you like?: ");
-                        string newAverage = Console.ReadLine(); //allows user to change the average checkout time
+                        Console.WriteLine("You selected to change the Average time Customers will be in line (in seconds). Current: " + supermarketSimulation.AverageTime.ToString());
+                        Console.WriteLine("\n\nWhat time would you like? Or press 'b' and 'enter' to return: ");
 
-                        try
+                        while (true)
                         {
-                            //stores the new average checkout time in the supermarket instance
-                            supermarketInstance.AverageTime = double.Parse(newAverage);
+                            string newAverage = Console.ReadLine(); //allows user to change the average checkout time
+                            if (newAverage == "b")
+                            {
+                                break;
+                            }
+                            try
+                            {
+                                //stores the new average checkout time in the supermarket instance
+                                supermarketSimulation.AverageTime = double.Parse(newAverage);
+                                break;
+                            }
+                            catch (Exception) //catches if the input is not valid
+                            {
+                                Console.WriteLine("The value you entered is not valid, please try again.");
+                            }
                         }
-                        catch(Exception) //catches if the input is not valid
+                        
+                        break;
+                    case Choices.EXECUTION_TIME:
+                        Console.Title = "Execution Time of Simulation";
+                        Console.WriteLine("You selected to change the speed at which the program will run. Current: " + supermarketSimulation.ExecutionSpeed.ToString());
+                        Console.WriteLine("\n\nWhat speed (in milliseconds) would you like? Or press 'b' and 'enter' to return: ");
+                        string executionTime = Console.ReadLine(); //allows user to change the average checkout time
+                        if (executionTime == "b")
                         {
-                            Console.WriteLine("The value you entered is not valid, please try again.");
-                            Console.ReadKey();
+                            break;
+                        }
 
+                        while (true)
+                        {
+                            try
+                            {
+                                //stores the new average checkout time in the supermarket instance
+                                supermarketSimulation.AverageTime = double.Parse(executionTime);
+                                break;
+                            }
+                            catch (Exception) //catches if the input is not valid
+                            {
+                                Console.WriteLine("The value you entered is not valid, please try again.");
+                            }
                         }
                         break;
-
                     case Choices.RUN:
-                        //creates a new instance of the supermarket with the edited information
-                        supermarketSimulation = new Supermarket(supermarketInstance.NumberOfCustomers, supermarketInstance.TimeStoreOpens, supermarketInstance.NumberOfRegisters, supermarketInstance.AverageTime);
-                        supermarketSimulation.CreateRegisters(); //creates the registers
-                        supermarketSimulation.Simulation();  //runs the simulation
+                        supermarketSimulation.CreateCustomers();
+                        supermarketSimulation.CreateRegisters(); 
+                        supermarketSimulation.Simulation();
+                        if(menu.GetChoiceLength() < 7)
+                        {
+                            menu.InsertChoice("Re-Display the statistics", menu.GetChoiceLength() - 1);
+                        }
                         break;
-
                     case Choices.DISPLAY:
                         Console.WriteLine(supermarketSimulation.ToString()); //prints all of the statistics from the simulation ran
+                        Console.WriteLine("Press any key to return.\n\n");
                         Console.ReadKey();
                         break;
 

@@ -18,6 +18,6 @@ namespace SupermarketSimulation
     /// </summary>
     enum Choices
     {
-        CUSTOMERS = 1, HOURS, REGISTERS, AVERAGE, RUN, DISPLAY, QUIT
+        CUSTOMERS = 1, HOURS, REGISTERS, AVERAGE, EXECUTION_TIME, RUN, DISPLAY, QUIT
     }
 }

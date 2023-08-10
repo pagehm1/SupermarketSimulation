@@ -76,6 +76,11 @@ namespace SupermarketSimulation
         DateTime CurrentTime { get; set; }
 
         /// <summary>
+        /// sets how fast the user wants to update the simulation (smaller time = slower execution)
+        /// </summary>
+        public int ExecutionSpeed { get; set; }
+
+        /// <summary>
         /// Default Constructor that initializes the properties for the simulator
         /// </summary>
         public Supermarket()
@@ -95,6 +100,7 @@ namespace SupermarketSimulation
 
             Registers = new List<Queue<Customer>>(NumberOfRegisters);
             MinimumServiceTime = new TimeSpan(0, 10, 0);
+            ExecutionSpeed = 300;
         }
 
         /// <summary>
@@ -104,11 +110,8 @@ namespace SupermarketSimulation
         /// <param name="timeStoreOpens">Time the store opens in the morning</param>
         /// <param name="numberOfRegisters">Number of Registers used for the day</param>
         /// <param name="averageTime">Average Checkout time</param>
-        public Supermarket(double numberOfCustomers, DateTime timeStoreOpens, int numberOfRegisters, double averageTime)
+        public Supermarket(double numberOfCustomers, DateTime timeStoreOpens, int numberOfRegisters, double averageTime, int executionSpeed)
         {
-            Random randNum = new Random();
-            Customer NewCustomer;
-
             //New *expected* number of customers from input
             NumberOfCustomers = Poisson(numberOfCustomers);
 
@@ -117,9 +120,6 @@ namespace SupermarketSimulation
 
             //sets time of day to user input
             TimeStoreOpens = timeStoreOpens;
-
-            //Takes the hours that the user wants to open and converts it for the ENTER event
-            int operatingHours = 24 - TimeStoreOpens.Hour;
 
             //sets number of registers to user input
             NumberOfRegisters = numberOfRegisters;
@@ -133,10 +133,23 @@ namespace SupermarketSimulation
             //used to determine the smallest checkout time
             MinimumServiceTime = new TimeSpan(0, 10, 0);
 
+            ExecutionSpeed = executionSpeed;
+            
+        }
+
+        /// <summary>
+        /// Creates the Customers and their ENTER and LEAVE events
+        /// </summary>
+        public void CreateCustomers()
+        {
+            Customer NewCustomer;
+            Random randNum = new Random();
+            int operatingHours = 24 - TimeStoreOpens.Hour; //Takes the hours that the user wants to open and converts it for the ENTER event
+
             //creates the customer objects and their ENTER and LEAVE events
-            for (int customer = 1; customer <= NumberOfCustomers; customer++)
+            for (int i = 1; i <= NumberOfCustomers; i++)
             {
-                NewCustomer = new Customer(AverageTime, customer);
+                NewCustomer = new Customer(AverageTime, i, randNum);
                 QueueOfEvents.Enqueue(new Event(EventType.ENTER, TimeStoreOpens.Add(new TimeSpan(0, randNum.Next(operatingHours * 60), 0)), NewCustomer));
 
                 //finds the minimum and maximum times of service
@@ -152,9 +165,6 @@ namespace SupermarketSimulation
 
                 //Average after all customers have been made
                 EndAverageServiceTime += NewCustomer.TimeOfService.TotalMinutes;
-
-                //pauses program so it does not immediately start when user runs simulation
-                Thread.Sleep(1);
             }
         }
 
@@ -167,14 +177,9 @@ namespace SupermarketSimulation
             StringBuilder registerRepresentation = new StringBuilder();
             registerRepresentation.Append("    Registers\n" + "--------------------");
 
-            //counts ENTER events ran
-            int arrivalCount = 0;
-
-            //counts LEAVE events ran
-            int departureCount = 0;
-
-            //records longest line of customers
-            int longestLine = 0;
+            int arrivalCount = 0; //counts ENTER events ran
+            int departureCount = 0; //counts LEAVE events ran
+            int longestLine = 0; //records longest line of customers
 
             //runs until all ENTER and LEAVE events are used and removed
             while (QueueOfEvents.Count > 0)
@@ -186,11 +191,9 @@ namespace SupermarketSimulation
                 //updates current time
                 CurrentTime = QueueOfEvents.Peek().Time;
 
-                //register that the new Customer object is going into
-                int registerUsed = 0;
-
-                //holds the amount of customers in the register that is being checked
-                int registerAmount = 0;
+                
+                int registerUsed = 0; //register that the new Customer object is going into
+                int registerAmount = 0; //holds the amount of customers in the register that is being checked
 
                 //Adds a customer into a line if the event is an ENTER event
                 if (QueueOfEvents.Peek().Type == EventType.ENTER)
@@ -210,12 +213,10 @@ namespace SupermarketSimulation
                         else if(Registers[i].Count < registerAmount) //uses the register if its count is smaller than the amount being checked
                         {
                             registerUsed = i;
-                            registerAmount = Registers[i].Count;
+                            
                         }
-                        else //edit the count for the next register being checked
-                        {
-                            registerAmount = Registers[i].Count;
-                        }
+
+                        registerAmount = Registers[i].Count;
                     }
 
                     //Enqueues the Customer to the appropriate line
@@ -242,7 +243,6 @@ namespace SupermarketSimulation
                         {
                             if (QueueOfEvents.Peek().Customer == Registers[i].Peek())
                             {
-
                                 Registers[i].Dequeue(); //removes the Customer from the register
                                 QueueOfEvents.Enqueue(new Event(EventType.LEAVE, CurrentTime + Registers[i].Peek().TimeOfService, Registers[i].Peek())); //Enqueues the LEAVE event for that customer
                                 break;
@@ -275,9 +275,9 @@ namespace SupermarketSimulation
                 registerRepresentation.Append(String.Format("\n\nCurrent Longest Line of the Day: " + longestLine.ToString()));  //Longest line count as of this loop
                 registerRepresentation.Append(String.Format("\nCurrent Time: " + CurrentTime.ToString()));  //The time of the last event ran
                 registerRepresentation.Append(String.Format("\nArrivals: " + arrivalCount.ToString() + "    Departures: " + departureCount.ToString()));  //Arrival and Departure count of Customers
-                Console.WriteLine(registerRepresentation); //prints String Builder
+                Console.WriteLine(registerRepresentation);
                 QueueOfEvents.Dequeue(); //gets rid of Queue ran
-                Thread.Sleep(10); //pauses so information is readable
+                Thread.Sleep(ExecutionSpeed); //pauses so information is readable
             } //end of Events while loop
 
             //calculates the actual average of the Customer objects
@@ -326,14 +326,15 @@ namespace SupermarketSimulation
         /// <returns>output of information</returns>
         public override string ToString()
         {
-            string output = "\n\nAverage Check-out Time: " + TimeSpan.FromMinutes(EndAverageServiceTime);
-            output += "\n\nShortest Check-out Time: " + MinimumServiceTime.ToString() + "\nLongest Check-Out Time: " + MaximumServiceTime.ToString();
-            output += "\nCustomers: " + NumberOfCustomers.ToString();
-            output += "\nNumber of Registers: " + NumberOfRegisters.ToString();
-            output += "\nInitial Average Checkout time: " + AverageTime.ToString();
-            output += "\nTime the store opened: " + TimeStoreOpens.ToString();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("\n\nAverage Check-out Time: " + TimeSpan.FromMinutes(EndAverageServiceTime));
+            sb.Append("\n\nShortest Check-out Time: " + MinimumServiceTime.ToString() + "\nLongest Check-Out Time: " + MaximumServiceTime.ToString());
+            sb.Append("\nCustomers: " + NumberOfCustomers.ToString());
+            sb.Append("\nNumber of Registers: " + NumberOfRegisters.ToString());
+            sb.Append("\nInitial Average Checkout time: " + AverageTime.ToString());
+            sb.Append("\nTime the store opened: " + TimeStoreOpens.ToString());
 
-            return output;
+            return sb.ToString();
         }
     }
 }
