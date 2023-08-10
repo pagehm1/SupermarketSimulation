@@ -180,10 +180,15 @@ namespace SupermarketSimulation
             int arrivalCount = 0; //counts ENTER events ran
             int departureCount = 0; //counts LEAVE events ran
             int longestLine = 0; //records longest line of customers
+            bool stopExec = false;
 
             //runs until all ENTER and LEAVE events are used and removed
-            while (QueueOfEvents.Count > 0)
+            while (QueueOfEvents.Count > 0 )
             {
+                if(stopExec)
+                {
+                    break;
+                }
                 //Clears screen to show new info
                 registerRepresentation.Clear();
                 Console.Clear();
@@ -275,9 +280,38 @@ namespace SupermarketSimulation
                 registerRepresentation.Append(String.Format("\n\nCurrent Longest Line of the Day: " + longestLine.ToString()));  //Longest line count as of this loop
                 registerRepresentation.Append(String.Format("\nCurrent Time: " + CurrentTime.ToString()));  //The time of the last event ran
                 registerRepresentation.Append(String.Format("\nArrivals: " + arrivalCount.ToString() + "    Departures: " + departureCount.ToString()));  //Arrival and Departure count of Customers
+                registerRepresentation.Append("\n\n Enter 'P' to pause execution, or B to end execution");
                 Console.WriteLine(registerRepresentation);
                 QueueOfEvents.Dequeue(); //gets rid of Queue ran
                 Thread.Sleep(ExecutionSpeed); //pauses so information is readable
+
+                ConsoleKeyInfo cki = new ConsoleKeyInfo();
+
+                if(Console.KeyAvailable)
+                {
+                    cki = Console.ReadKey(true);
+                    switch (cki.Key)
+                    {
+                        case ConsoleKey.P:
+                            Console.WriteLine("Execution paused. Press any button to continue");
+                            Console.ReadKey();
+                            break;
+                        case ConsoleKey.B:
+                            stopExec = true;
+                            QueueOfEvents.Clear(); //clear queue of customers
+                            
+                            //clear customers from register
+                            foreach(Queue<Customer> r in Registers)
+                            {
+                                r.Clear();
+                            }
+                            break;
+                        default:
+                            Console.WriteLine("Non-accepted input");
+                            break;
+                    }
+
+                }
             } //end of Events while loop
 
             //calculates the actual average of the Customer objects
@@ -304,7 +338,7 @@ namespace SupermarketSimulation
         /// </summary>
         /// <param name="expectedNumber">expected customer count</param>
         /// <returns>actual customer count</returns>
-        private int Poisson(double expectedNumber)
+        public int Poisson(double expectedNumber)
         {
             Random randNum = new Random();
             double limit = -expectedNumber;

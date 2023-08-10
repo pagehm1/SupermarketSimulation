@@ -44,8 +44,6 @@ namespace SupermarketSimulation
         /// </summary>
         public Customer()
         {
-            //RandNum = new Random();
-
             //creates random checkout time of at least two minutes
             TimeOfService = new TimeSpan(0, 2, (int)(NegativeExponential(225)));
         }

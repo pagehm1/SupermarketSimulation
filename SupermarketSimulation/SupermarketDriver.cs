@@ -55,7 +55,7 @@ namespace SupermarketSimulation
                             try
                             {
                                 //stores new count in the supermarket instance
-                                supermarketSimulation.NumberOfCustomers = int.Parse(numOfCustomers);
+                                supermarketSimulation.NumberOfCustomers = supermarketSimulation.Poisson(int.Parse(numOfCustomers));
                                 break;
                             }
                             catch (Exception) //catches input that is not a number
@@ -178,7 +178,7 @@ namespace SupermarketSimulation
                         supermarketSimulation.CreateCustomers();
                         supermarketSimulation.CreateRegisters(); 
                         supermarketSimulation.Simulation();
-                        if(menu.GetChoiceLength() < 7)
+                        if(menu.GetChoiceLength() < 8)
                         {
                             menu.InsertChoice("Re-Display the statistics", menu.GetChoiceLength() - 1);
                         }
