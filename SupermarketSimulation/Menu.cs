@@ -4,7 +4,7 @@
 //	File Name:		Menu.cs
 //	Description:	Menu class that creates the menu and its options for the user
 //	Course:			CSCI 2210-001 - Data Structures
-//	Author:			Hunter Page, pagehm1@etsu.edu
+//	Author:			Hunter Page, hunterpage27171@gmail.com
 //	Created:		Tuesday, April 14, 2020
 //	Copyright:		Hunter Page, 2020
 //
