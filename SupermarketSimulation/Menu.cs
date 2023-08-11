@@ -4,7 +4,7 @@
 //	File Name:		Menu.cs
 //	Description:	Menu class that creates the menu and its options for the user
 //	Course:			CSCI 2210-001 - Data Structures
-//	Author:			Hunter Page, pagehm1@etsu.edu
+//	Author:			Hunter Page, hunterpage27171@gmail.com
 //	Created:		Tuesday, April 14, 2020
 //	Copyright:		Hunter Page, 2020
 //
@@ -127,6 +127,21 @@ namespace SupermarketSimulation
                     return choice;
                 }
             }
+        }
+
+        /// <summary>
+        /// Inserts a new choice at the specified index
+        /// </summary>
+        /// <param name="choice">string name of option</param>
+        /// <param name="index">where to place it</param>
+        public void InsertChoice(string choice, int index)
+        {
+            Options.Insert(index, choice);
+        }
+
+        public int GetChoiceLength()
+        {
+            return Options.Count;
         }
         #endregion
     }

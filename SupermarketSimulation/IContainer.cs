@@ -4,17 +4,12 @@
 //	File Name:		IContainer.cs
 //	Description:	Interface for the Container of the data
 //	Course:			CSCI 2210-001 - Data Structures
-//	Author:			Hunter Page, pagehm1@etsu.edu
+//	Author:			Hunter Page, hunterpage27171@gmail.com
 //	Created:		Tuesday, April 14, 2020
 //	Copyright:		Hunter Page, 2020
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SupermarketSimulation
 {

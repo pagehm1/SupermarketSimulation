@@ -4,7 +4,7 @@
 //	File Name:		Event.cs
 //	Description:	Simulates the customer entering or leaving the register
 //	Course:			CSCI 2210-001 - Data Structures
-//	Author:			Hunter Page, pagehm1@etsu.edu
+//	Author:			Hunter Page, hunterpage27171@gmail.com
 //	Created:		Tuesday, April 14, 2020
 //	Copyright:		Hunter Page, 2020
 //

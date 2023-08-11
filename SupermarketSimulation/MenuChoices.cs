@@ -4,7 +4,7 @@
 //	File Name:		MenuChoices.cs
 //	Description:	Provides choices that the menu class and driver will use
 //	Course:			CSCI 2210-001 - Data Structures
-//	Author:			Hunter Page, pagehm1@etsu.edu
+//	Author:			Hunter Page, hunterpage27171@gmail.com
 //	Created:		Tuesday, April 14, 2020
 //	Copyright:		Hunter Page, 2020
 //
@@ -18,6 +18,6 @@ namespace SupermarketSimulation
     /// </summary>
     enum Choices
     {
-        CUSTOMERS = 1, HOURS, REGISTERS, AVERAGE, RUN, DISPLAY, QUIT
+        CUSTOMERS = 1, HOURS, REGISTERS, AVERAGE, EXECUTION_TIME, RUN, DISPLAY, QUIT
     }
 }
