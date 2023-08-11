@@ -1,6 +1,6 @@
 # SupermarketSimulation
 
-## Original Assignment Specs
+## Original Assignment Description
 
 Write a C# program to simulate the operation of the check-out lanes at the new supermarket.  
 You may assume that customers arrive at the check-out lines at the supermarket according to a uniform distribution throughout the entire day’s hours of operation.  
@@ -12,7 +12,7 @@ Though the supermarket’s management expects a certain number of customers per 
 ⦁	What if we expected a different number of customers on the average? <br/>
 ⦁	What if the expected service time or the minimum service time at a register changes? <br/>
 
-## Original specifications
+## Code specifications
 
 Use a PriorityQueue to manage the Events, and use a Queue of Customers to simulate a single line of customers at a register.  Use a List < Queue <Customer> > to simulate the collection of lines at the registers.  The goal is to find the smallest number of Queues the List must have to be sure the individual register lines do not exceed two customers in length.  You may make these assumptions.
 ⦁	Customers always enter the shortest line and that, once in a line, they do not change lines.  <br/>
