@@ -7,7 +7,7 @@ You may assume that customers arrive at the check-out lines at the supermarket a
 The time required to process a given customer once he or she has reached the front of the checkout line is determined from a (negative) exponential distribution.  
 Create classes for Customer and Event.  For the purposes of this assignment, an Event is a customer entering a line waiting at a register or a customer leaving the register line when he/she has been processed.  A customer does not begin to check out, obviously, until reaching the front of the register line.  
 The Supermarket class should manage the simulation using the Customer and Event classes and the data structures needed.  
-Though the supermarket’s management expects a certain number of customers per day and a certain number of hours of operation each day, they want your solution to be flexible enough to be able to answer “what if” questions such as:
+Though the supermarket’s management expects a certain number of customers per day and a certain number of hours of operation each day, they want your solution to be flexible enough to be able to answer “what if” questions such as: <br/>
 ⦁	What if we stayed open a half-hour less? <br/>
 ⦁	What if we expected a different number of customers on the average? <br/>
 ⦁	What if the expected service time or the minimum service time at a register changes? <br/>
